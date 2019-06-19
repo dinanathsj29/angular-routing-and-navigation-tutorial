@@ -13,7 +13,7 @@
 - **routerLink**
     - The attribute/directive for binding a clickable HTML element to a route which denotes link/view name to load/show in `(<router-outlet>)`
 
-1. Angular Routing Application setup steps:
+1.Angular Routing Application setup steps:
 ---------------------
 1. Generate a new Angular project/app with routing option
 2. Generate departmentList and employeeList, and other required components if any
