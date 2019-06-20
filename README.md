@@ -47,6 +47,13 @@ Let's create below Angular Single Page Application (SPA) with Routing and Naviga
   </figure>
 </p>
 
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/1.5-spa-single-page-app-folder-structure.png" alt="Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Folder structure" title="Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Folder structure" width="500" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Folder structure</figcaption>
+  </figure>
+</p>
+
 1.Angular Routing Application setup steps:
 ---------------------
 1. Generate a new Angular project/app with routing option
