@@ -327,3 +327,80 @@ nav a.active {
   background-color: #CFD8DC;
 }
 ```
+
+2 Wildcard Route and Redirecting Routes (Dealing with unavailable-non-configured route [Page not found])
+=====================
+- User can type/enter any unavailable-non-configured route/URL and can get many erros in console, like `http://localhost:5000/try` **Error:** `(Cannot match any routes, URL segment 'try'...)`
+- To deal/handle any unwanted path or unavailable routes we must need to create a new component named `page not found component` OR `404 component` and `add 'wildcard **'` route
+- `Wildcard **` routes or any paths with parameters (employees/1 or routes/parameters) `must come last` in `app-routing.module.ts` router configuration as router tries to match the paths from top to bottom
+- In `app-routing.module.ts` route must be configured in order: `most specific at the tpo to list important/specific at the bottom` 
+- **Default Route:** While using `wildcard **` routes we also need to provide `default route like '{ path: '', component:DepartmentListComponent}' OR  '{ path: '', redirectTo:'departments', pathMatch:'full'}'`
+<br/> <br/>
+
+Steps:
+- Create a new component for page not found: `ng g c wildcard-pagenotfound` with a instructional markup: `404 page not found!`
+- In `app-routing.module.ts` at the bottom/last add a new wildcard route: `{ path: '**', component: WildcardPagenotfoundComponent }`
+
+> **Syntax & Example**: wildcard-pagenotfound.component.html
+```html
+<p>
+  404 page not found! <br/>
+  Path/URL not available!! <br/>
+  <strong>Try Again!!!</strong>  
+</p>
+
+```
+
+> **Syntax & Example**: app-routing.module.ts
+```ts
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { DepartmentListComponent } from './components/department-list/department-list.component';
+import { EmployeeListComponent } from './components/employee-list/employee-list.component';
+import { HomeComponent } from './components/home/home.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { WildcardPagenotfoundComponent } from './components/wildcard-pagenotfound/wildcard-pagenotfound.component';
+
+const routes: Routes = [
+  // default path
+  // { path: '', component:DepartmentListComponent},
+  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'departments', component: DepartmentListComponent },
+  { path: 'employees', component: EmployeeListComponent },
+  { path: 'products', component: ProductListComponent },
+  { path: '**', component: WildcardPagenotfoundComponent }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+// to store all routing component and avoid importing/writing duplicate list of components in app.routing.module / app.module.
+// create an array of all routing components export it then imports it in app.module.ts
+export const RoutingComponents = [
+  DepartmentListComponent,
+  EmployeeListComponent,
+  HomeComponent,
+  ProductListComponent,
+  WildcardPagenotfoundComponent,
+]
+```
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/2.1-wildcard-route.png" alt="Image - Output - wildcard-route / Page not found!" title="Image - Output - wildcard-route / Page not found! width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - wildcard-route / Page not found!</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/2.2-wildcard-route.png" alt="Image - Output - wildcard-route / Page not found!" title="Image - Output - wildcard-route / Page not found! width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - wildcard-route / Page not found!</figcaption>
+  </figure>
+</p>
+        
