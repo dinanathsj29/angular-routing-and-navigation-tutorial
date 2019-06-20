@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="_images-angular-routing/angular-logo-1.png" alt="angular logo" title="angular logo" width="200" />
+</p>
+
 1 Angular Routing and Navigation 
 =====================
 - The `Angular Router enables navigation from one view (component)` to the another/next as users perform tasks, views (component)
@@ -12,6 +16,36 @@
     - The directive `(<router-outlet>)` that marks where the router displays a view (a container to hold different views/components loaded as users perform application tasks/actions)
 - **routerLink**
     - The attribute/directive for binding a clickable HTML element to a route which denotes link/view name to load/show in `(<router-outlet>)`
+
+Let's create below Angular Single Page Application (SPA) with Routing and Navigation feature:
+---------------------
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/1.1-spa-single-page-app-home.png" alt="Image - Output - Angular Single Page Application (SPA) with Routing and Navigation - Home View" title="Image - Output - Angular Single Page Application (SPA) with Routing and Navigation - Home View" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Home View</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/1.2-spa-single-page-app-departments.png" alt="Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Departments View" title="Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Departments View" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Departments View</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/1.3-spa-single-page-app-employees.png" alt="Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Employees View" title="Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Employees View" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Employees View</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/1.4-spa-single-page-app-products.png" alt="Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Products View" title="Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Products View" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Angular Single Page Application (SPA) with Routing Navigation - Products View</figcaption>
+  </figure>
+</p>
 
 1.Angular Routing Application setup steps:
 ---------------------
