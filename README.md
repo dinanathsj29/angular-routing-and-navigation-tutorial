@@ -404,3 +404,157 @@ export const RoutingComponents = [
   </figure>
 </p>
         
+3 Route Parameters 
+=====================
+- In this section will learn to pass and read route parameters, as given below:
+  - http://localhost:4200/departments/production
+  - http://localhost:4200/user/1
+  - http://localhost:4200/employee/100
+1. In `app-routing.module.ts` create `departments/:id` path route parameters for items under department list component 
+2. In `department-list.component.ts` class file create a array of departments object
+3. In `department-list.component.html` view file iterate/*ngFor through departments array and pass departments id as a route parameter
+    - on click of the department list item, it will take to `department-details.component page with selected department id`, at the same time browser location path will be displayed as `localhost:5000/department:2 (selected department id )`
+    - To navigate from code/links/buttons we need `router service as a dependency`
+4. Create and use a new component to show details: `department-details.component.ts` - read the departments id passed as a parameter and show the route view accordingly
+    - `activatedRoute.snapshot.paramMap.get()` is used to read the routes/parameters passed
+
+> **Syntax & Example**: department-list.component.ts
+```ts
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-department-list',
+  templateUrl: './department-list.component.html',
+  styleUrls: ['./department-list.component.css']
+})
+export class DepartmentListComponent implements OnInit {
+  public departments = [
+    { 'id': 1, 'name': 'JavaScript' },
+    { 'id': 2, 'name': 'Angular' },
+    { 'id': 3, 'name': 'NodeJS' },
+    { 'id': 4, 'name': 'ReactJS' },
+    { 'id': 5, 'name': 'VueJs' },
+  ]
+  
+  constructor(private router: Router) { }
+
+  ngOnInit() {
+
+  }
+
+  onLinkSelect(curDepartment) {
+    console.log('onLinkSelect curDepartment');
+    // navigate ( path, route parameter)
+    this.router.navigate(['departments', curDepartment.id]);
+  }
+
+}
+```
+
+> **Syntax & Example**: department-list.component.html
+```html
+<div>
+  <h3>Department list:</h3>
+
+  <ul class="items">
+    Click on department to see more details:
+    <!-- on link click call function/method to navigate -->
+    <li *ngFor="let department of departments" (click)="onLinkSelect(department)">
+      <span class="badge">{{department.id}}</span>
+      <span class="description">{{department.name}}</span>
+    </li>
+  </ul>
+
+</div>
+```
+
+> **Syntax & Example**: app-routing.module
+```ts
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { DepartmentDetailsComponent } from './components/department-details/department-details.component';
+import { DepartmentListComponent } from './components/department-list/department-list.component';
+import { EmployeeListComponent } from './components/employee-list/employee-list.component';
+import { HomeComponent } from './components/home/home.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { WildcardPagenotfoundComponent } from './components/wildcard-pagenotfound/wildcard-pagenotfound.component';
+
+const routes: Routes = [
+  // default path
+  // { path: '', component:DepartmentListComponent},
+  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'departments', component: DepartmentListComponent },
+  { path: 'departments/:id', component: DepartmentDetailsComponent },
+  { path: 'employees', component: EmployeeListComponent },
+  { path: 'products', component: ProductListComponent },
+  { path: '**', component: WildcardPagenotfoundComponent }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+// to store all routing component and avoid importing/writing duplicate list of components in app.routing.module / app.module.
+// create an array of all routing components export it then imports it in app.module.ts
+export const RoutingComponents = [
+  DepartmentDetailsComponent,
+  DepartmentListComponent,
+  EmployeeListComponent,
+  HomeComponent,
+  ProductListComponent,
+  WildcardPagenotfoundComponent,
+]
+```
+
+> **Syntax & Example**: department-details.component.ts
+```ts
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-department-details',
+  templateUrl: './department-details.component.html',
+  styleUrls: ['./department-details.component.css']
+})
+export class DepartmentDetailsComponent implements OnInit {
+  // to hold the currently passed id parameter
+  public selectedDepartmentId;
+
+  constructor(private activatedRoute: ActivatedRoute) { }
+
+  ngOnInit() {
+    // read the route parameter
+
+    // snapshot approach 
+    console.log(this.activatedRoute.snapshot.paramMap);
+    let routeParamId = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.selectedDepartmentId = routeParamId;
+  }
+
+}
+```
+
+> **Syntax & Example**: department-details.component.html
+```html
+<h3>Selected Deparment Details ID : {{ selectedDepartmentId }} </h3>
+```
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/3.1-route-parameters-department-list-home.png" alt="Image - Output - Route P arameters Department List" title="Image - Output - Route P arameters Department List width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Route P arameters Department List</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/3.2-route-parameters-department-clicked.png" alt="Image - Output - Route P arameters Department Clicked/Selected" title="Image - Output - Route P arameters Department Clicked/Selected width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Route P arameters Department Clicked/Selected</figcaption>
+  </figure>
+</p>
+        
