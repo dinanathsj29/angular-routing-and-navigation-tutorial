@@ -719,3 +719,37 @@ isSelectedRouteMatchOptionalParam(curDepartment) {
   </figure>
 </p>
 
+6 Relative Navigation
+=====================
+- `Absolute path` starts with `forward slash /` (paths like `/name` are absolute/fixed path)
+- `Absolute/Fixed paths are not flexible` as if file/route name changes we need to make change at all occurrences/places in an application
+- Its advisable to use relative path/navigation with `relativeTo` property
+    
+> **Syntax & Example**: department-list.component.ts
+```ts
+/* on department click */
+onLinkSelect(curDepartment) {
+  console.log('onLinkSelect curDepartment');
+  // navigate ( path, route parameter)
+  // this.router.navigate(['departments', curDepartment.id]);
+
+  // relative path, links parameter array, relativeTo property
+  this.router.navigate([curDepartment.id], { relativeTo: this.activatedRoute }); // to the current route  append the department id and navigate to that URL
+}
+```
+
+> **Syntax & Example**: department-details.component.ts
+```ts
+// back button - method to handle optional parameters and show current department highlighted
+goToDepartments() {
+  console.log('goToDepartments clicked');
+  let currentSelectedId = this.selectedDepartmentId ? this.selectedDepartmentId : null
+  //sending optional parameter - used for some logic
+  //this.router.navigate(["/departments", { id: currentSelectedId, test: 'test-param-value' }])
+
+  // relative path, links parameter array - {key:value}, {relativeTo property}
+  // we can pass multiple parameters as per our requirements
+  // this.router.navigate(['../', { id: currentSelectedId, name: 'Hello'  }]);
+  this.router.navigate(['../', { id: currentSelectedId }], { relativeTo: this.activatedRoute });  // to the current route  append the department id and navigate to that URL
+}
+```
