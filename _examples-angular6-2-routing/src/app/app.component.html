@@ -1,0 +1,18 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<h1 style="text-align:center;">{{ appTitle }}</h1>
+
+<!-- add buttons/links to navigate pages or routings -->
+<nav>
+  <a routerLink="/home" routerLinkActive="active" routerLinkActiveOptions="{exact:true}">Home</a>
+  &nbsp;&nbsp;
+  <a routerLink="/departments" routerLinkActive="active" routerLinkActiveOptions="{exact:true}">Departments</a>
+  &nbsp;&nbsp;
+  <a routerLink="/employees" routerLinkActive="active" routerLinkActiveOptions="{exact:true}">Employees</a>
+  &nbsp;&nbsp;
+  <a routerLink="/products" routerLinkActive="active" routerLinkActiveOptions="{exact:true}">Products</a> &nbsp;&nbsp;
+</nav>
+
+<hr />
+
+<!-- ng new routing-demo-app --routing  - defulat include router-outlet in app.component.html. routed views goes here -->
+<router-outlet></router-outlet>

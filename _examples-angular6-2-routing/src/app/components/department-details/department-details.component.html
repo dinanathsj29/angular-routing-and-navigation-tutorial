@@ -1,0 +1,22 @@
+<h3>Selected Deparment Details ID : {{ selectedDepartmentId }} </h3>
+
+<br />
+
+<a (click)="goPrevious()" class="link-sub">Previous</a> &nbsp; &nbsp;
+<a (click)="goNext()" class="link-sub">Next</a>
+
+<br /> <br /> <br /> <br /> <br /> <br />
+
+<button (click)="showOverview()">Overview </button> &nbsp; &nbsp;
+<button (click)="showContact()">Contact</button>
+
+<router-outlet></router-outlet>
+
+<br /> <br />
+
+<hr />
+
+<br />
+
+<!-- // back button - method to handle optional parameters and show current clicked department highlighted -->
+<button (click)="goToDepartments()" class="button-sub">Back</button>

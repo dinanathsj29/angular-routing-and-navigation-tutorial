@@ -1,0 +1,13 @@
+<div>
+  <h3>Department list:</h3>
+
+  <ul class="items">
+    Click on department to see more details:
+    <!-- on link click call function/method to navigate -->
+    <li *ngFor="let department of departments" (click)="onLinkSelect(department)" [class.selected]="isSelectedRouteMatchOptionalParam(department)">
+      <span class="badge">{{department.ids}}</span>
+      <span class="description">{{department.name}}</span>
+    </li>
+  </ul>
+
+</div>
