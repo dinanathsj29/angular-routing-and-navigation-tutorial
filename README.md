@@ -753,3 +753,187 @@ goToDepartments() {
   this.router.navigate(['../', { id: currentSelectedId }], { relativeTo: this.activatedRoute });  // to the current route  append the department id and navigate to that URL
 }
 ```
+
+7 Child Routes
+=====================
+- In application, some routes/path/links/pages viewed only within other routes - in such scenario we can create and use child routes in app-routing.module.ts
+- Like inside department-details component we need to show links/pages like: Overview, Contact, Pictures etc.
+- Create child components with angular cli command: 
+  - `department-overview` - ng g c department-overview
+  - `department-contact` - ng g c department-contact
+- Change/add app-routing.module.ts with `children` property
+- Inside `parent component department-details` create `<router-outlet>` as a container area for loading pages, also create buttons `overview` and `contact` to navigate to component/pages/route `<button (click)="showOverview()">Overview</button>`
+
+> **Syntax & Example**: app-routing.module.ts
+```ts
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { DepartmentContactComponent } from './components/department-contact/department-contact.component';
+import { DepartmentDetailsComponent } from './components/department-details/department-details.component';
+import { DepartmentListComponent } from './components/department-list/department-list.component';
+import { DepartmentOverviewComponent } from './components/department-overview/department-overview.component';
+import { EmployeeListComponent } from './components/employee-list/employee-list.component';
+import { HomeComponent } from './components/home/home.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { WildcardPagenotfoundComponent } from './components/wildcard-pagenotfound/wildcard-pagenotfound.component';
+
+const routes: Routes = [
+  // default path
+  // { path: '', component:DepartmentListComponent},
+  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'departments', component: DepartmentListComponent },
+  {
+    path: 'departments/:id', component: DepartmentDetailsComponent,
+    children: [
+      { path: 'overview', component: DepartmentOverviewComponent },
+      { path: 'contact', component: DepartmentContactComponent },
+    ]
+  },
+  { path: 'employees', component: EmployeeListComponent },
+  { path: 'products', component: ProductListComponent },
+  { path: '**', component: WildcardPagenotfoundComponent }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+// to store all routing component and avoid importing/writing duplicate list of components in app.routing.module / app.module.
+// create an array of all routing components export it then import it in app.module.ts
+export const RoutingComponents = [
+  DepartmentContactComponent,
+  DepartmentDetailsComponent,
+  DepartmentListComponent,
+  DepartmentOverviewComponent,
+  EmployeeListComponent,
+  HomeComponent,
+  ProductListComponent,
+  WildcardPagenotfoundComponent,
+]
+```
+
+> **Syntax & Example**: department-details.component.html
+```html
+<h3>Selected Deparment Details ID : {{ selectedDepartmentId }} </h3>
+
+<br />
+
+<a (click)="goPrevious()" class="link-sub">Previous</a> &nbsp; &nbsp;
+<a (click)="goNext()" class="link-sub">Next</a>
+
+<button (click)="showOverview()">Overview </button> &nbsp; &nbsp;
+<button (click)="showContact()">Contact</button>
+
+<router-outlet></router-outlet>
+
+<br /> <br />
+
+<hr />
+
+<br />
+
+<!-- // back button - method to handle optional parameters and show current clicked department highlighted -->
+<button (click)="goToDepartments()" class="button-sub">Back</button>
+```
+
+> **Syntax & Example**: department-details.component.ts
+```ts
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+
+@Component({
+  selector: 'app-department-details',
+  templateUrl: './department-details.component.html',
+  styleUrls: ['./department-details.component.css']
+})
+export class DepartmentDetailsComponent implements OnInit {
+  
+  // to hold the currently passed id parameter
+  public selectedDepartmentId;
+
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) { }
+
+  ngOnInit() {
+    // read the route parameter
+
+    // snapshot approach 
+    // console.log(this.activatedRoute.snapshot.paramMap);
+    // let routeParamId = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
+    // this.selectedDepartmentId = routeParamId;
+
+    // paramMap Observable approach 
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      let id = parseInt(params.get('id')); // let id = Number(params.get('id'))
+      this.selectedDepartmentId = id;
+    })
+  }
+
+  /* Previous/Back button click */
+  goPrevious() {
+    let previousId = this.selectedDepartmentId - 1;
+    this.router.navigate(['/departments', previousId]);
+  }
+
+  /* Next button click */
+  goNext() {
+    let nextId = this.selectedDepartmentId + 1;
+    this.router.navigate(['/departments', nextId]);
+  }
+
+  // back button - method to handle optional parameters and show current department highlighted
+  goToDepartments() {
+    console.log('goToDepartments clicked');
+    let currentSelectedId = this.selectedDepartmentId ? this.selectedDepartmentId : null
+    //sending optional parameter - used for some logic
+    //this.router.navigate(["/departments", { id: currentSelectedId, test: 'test-param-value' }])
+
+    // relative path, links parameter array - {key:value}, {relativeTo property}
+    // we can pass multiple parameters as per our requirements
+    // this.router.navigate(['../', { id: currentSelectedId, name: 'Hello'  }]);
+    this.router.navigate(['../', { id: currentSelectedId }], { relativeTo: this.activatedRoute });  // to the current route  append the department id and navigate to that URL
+  }
+
+  /* on overview button click */
+  showOverview() {
+    this.router.navigate(['overview'], { relativeTo: this.activatedRoute })
+  }
+
+  /* on contact button click */
+  showContact() {
+    this.router.navigate(['contact'], { relativeTo: this.activatedRoute })
+  }
+
+}
+```
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/7.1-department-list.png" alt="Image - Output - Department List" title="Image - Output - Department List" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Department List</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/7.2-child-route-department-overview.png" alt="Image - Output - Child Route Department Overview" title="Image - Output - Child Route Department Overview" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Child Route Department Overview</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/7.3-child-route-department-contact.png" alt="Image - Output - Child Route Department Contact" title="Image - Output - Child Route Department Contact" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Child Route Department Contact</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/7.4-optional-route-param-active-highlight.png" alt="Image - Output - Optional Route Parameter Show Selected Department highlighted" title="Image - Output - Optional Route Parameter Show Selected Department highlighted" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Optional Route Parameter Show Selected Department highlighted</figcaption>
+  </figure>
+</p>
