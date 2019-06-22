@@ -546,15 +546,99 @@ export class DepartmentDetailsComponent implements OnInit {
 
 <p>
   <figure>
-    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/3.1-route-parameters-department-list-home.png" alt="Image - Output - Route P arameters Department List" title="Image - Output - Route P arameters Department List width="1000" border="2" />
-    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Route P arameters Department List</figcaption>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/3.1-route-parameters-department-list-home.png" alt="Image - Output - Route Parameters Department List" title="Image - Output - Route Parameters Department List" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Route Parameters Department List</figcaption>
   </figure>
 </p>
 
 <p>
   <figure>
-    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/3.2-route-parameters-department-clicked.png" alt="Image - Output - Route P arameters Department Clicked/Selected" title="Image - Output - Route P arameters Department Clicked/Selected width="1000" border="2" />
-    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Route P arameters Department Clicked/Selected</figcaption>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/3.2-route-parameters-department-clicked.png" alt="Image - Output - Route Parameters Department Clicked/Selected" title="Image - Output - Route Parameters Department Clicked/Selected" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Route Parameters Department Clicked/Selected</figcaption>
   </figure>
 </p>
+
+4 paramMap Observable
+=====================
+- Using the `activatedRoute.snapshot` got some drawback like: when will navigate back next / previous next from child component `(details component to list component)` snapshot approach does not work
+    1. In department-details.component.html add links Previous & Next to see rest of departments with click handler `<a (click)="goPrevious()">Back </a>`
+    2. In `department-details.component.ts` create a handler `goPrevious()` & `goNext()` with required logic
+    3. If you will observe the drawback here is on Previous & Next button clicks, `only url updates/changing but view/template not changing (ngOnInit does not get call)`
+    4. To overcome activatedRoute.snapshot problems will use `paramMap Observable with subscribe`
+
+> **Syntax & Example**: department-details.component.html
+```html
+<h3>Selected Deparment Details ID : {{ selectedDepartmentId }} </h3>
+
+<br />
+
+<a (click)="goPrevious()" class="link-sub">Previous</a> &nbsp; &nbsp;
+<a (click)="goNext()" class="link-sub">Next</a>
+```
+
+> **Syntax & Example**: department-details.component.ts
+```ts
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+
+@Component({
+  selector: 'app-department-details',
+  templateUrl: './department-details.component.html',
+  styleUrls: ['./department-details.component.css']
+})
+export class DepartmentDetailsComponent implements OnInit {
+  // to hold the currently passed id parameter
+  public selectedDepartmentId;
+
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) { }
+
+  ngOnInit() {
+    // read the route parameter
+
+    // snapshot approach 
+    // console.log(this.activatedRoute.snapshot.paramMap);
+    // let routeParamId = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
+    // this.selectedDepartmentId = routeParamId;
+
+    // paramMap Observable approach 
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      let id = parseInt(params.get('id')); // let id = Number(params.get('id'))
+      this.selectedDepartmentId = id;
+    })
+  }
+
+  goPrevious() {
+    let previousId = this.selectedDepartmentId - 1;
+    this.router.navigate(['/departments', previousId]);
+  }
+
+  goNext() {
+    let nextId = this.selectedDepartmentId + 1;
+    this.router.navigate(['/departments', nextId]);
+  }
+
+}
+```
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/4.1-route-parameters-previous.png" alt="Image - Output - Route Parameters Previous ID" title="Image - Output - Route Parameters Previous ID" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Route Parameters Previous ID</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/4.2-route-parameters-next.png" alt="Image - Output - Route Parameters Next ID" title="Image - Output - Route Parameters Next ID" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Route Parameters Next ID</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/4.3-route-parammap-observable-next.png" alt="Image - Output - Route Parameters Observables Next ID" title="Image - Output - Route Parameters Observables Next ID" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Route Parameters Observables Next ID</figcaption>
+  </figure>
+</p>
+
         
