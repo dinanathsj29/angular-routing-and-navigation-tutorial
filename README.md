@@ -641,4 +641,81 @@ export class DepartmentDetailsComponent implements OnInit {
   </figure>
 </p>
 
-        
+5 Optional Route Parameters
+=====================
+- By using `Back button in department-details.component.html` we must `navigate back to department-list.component.html` and show clicked department in selected state`
+    1. In department-details.component add `Back` button: `<button click="goToDepartments()">Back </button> `     
+    2. In `department-details.component.ts` create a handler ` goToDepartments()` with required logic, 
+    // Use Back button to go to main list page and highlight the link by passing optional parameters with departments details, when back it shows in url `http://localhost:5000/departments;id=4`
+    3. In `department-list.component.ts` add required login in `ngOnInit()` life cycle hook to read the passed optional parameter and to highlight clicked department button 
+    
+> **Syntax & Example**: department-details.component.html
+```html
+<!-- // back button - method to handle optional parameters and show current clicked department highlighted -->
+<button (click)="goToDepartments()" class="button-sub">Back</button>
+```
+
+> **Syntax & Example**: department-details.component.ts
+```ts
+// back button - method to handle optional parameters and show current department highlighted
+goToDepartments() {
+  console.log('goToDepartments clicked');
+  let currentSelectedId = this.selectedDepartmentId ? this.selectedDepartmentId : null
+  //sending optional parameter - used for some logic
+  //this.router.navigate(["/departments", { id: currentSelectedId, test: 'test-param-value' }])
+
+  // relative path, links parameter array - {key:value}, {relativeTo property}
+  // we can pass multiple parameters as per our requirements
+  // this.router.navigate(['../', { id: currentSelectedId, name: 'Hello'  }]);
+  this.router.navigate(['../', { id: currentSelectedId }]);
+}
+```
+
+> **Syntax & Example**: department-list.component.ts
+```ts
+ngOnInit() {
+  this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+    let id = parseInt(params.get('id')); // let id = Number(params.get('id'))
+    this.selectedDepartmentId = id;
+  })
+}
+
+/* on department click */
+onLinkSelect(curDepartment) {
+  console.log('onLinkSelect curDepartment');
+  // navigate ( path, route parameter)
+  // this.router.navigate(['departments', curDepartment.id]);
+
+  // relative path, links parameter array, relativeTo property
+  this.router.navigate([curDepartment.id]);
+}
+
+// to compare/match current route clicked and optional parameter
+isSelectedRouteMatchOptionalParam(curDepartment) {
+  return curDepartment.id === this.selectedDepartmentId;
+}
+```
+
+> **Syntax & Example**: styles.css
+```css
+/* optional parameter - show highlighted */
+.items li.selected {
+  color:#039be5;
+  background-color: #CFD8DC;
+}
+```
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/5.1-optional-route-parameters-back.png" alt="Image - Output - Optional Route Parameters Back" title="Image - Output - Optional Route Parameters Back" width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Optional Route Parameters Back</figcaption>
+  </figure>
+</p>
+
+<p>
+  <figure>
+    &nbsp;&nbsp;&nbsp; <img src="./_images-angular-routing/5.2-optional-route-parameters-selected-list.png" alt="Image - Output - Optional Route Parameters Selected List " title="Image - Output - Optional Route Parameters Selected List " width="1000" border="2" />
+    <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Optional Route Parameters Selected List </figcaption>
+  </figure>
+</p>
+
