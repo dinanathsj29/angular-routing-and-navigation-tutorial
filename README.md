@@ -2,6 +2,19 @@
     <img src="_images-angular-routing/angular-logo-1.png" alt="angular logo" title="angular logo" width="200" />
 </p>
 
+Working with Angular Routing and Navigation 
+=====================
+
+Working with existing/cloned/copied Angular App
+---------------------
+- Clone or Download the project/app from Github or any other sources
+- If using Visual Studio Code / Insiders, open Command panel/terminal from menu: View -> Terminal (shortcut key is `CTRL + BackTick` OR `COMMAND + J`)
+- Go inside the project/app directory, command: `cd _examples-angular6-2-routing OR cd appName`
+- Run command: `npm install` to install project/app dependencies `(node_modules)`
+- To Build and run Angular App, command: `ng serve / npm start` OR `ng serve -o` OR `ng serve --open`
+- To change port from 4200 to other port - type command:  `ng serve --port 5000`
+- To check the application in browser type path/url: `localhost:4200 / 5000`
+
 1 Angular Routing and Navigation 
 =====================
 - The `Angular Router enables navigation from one view (component)` to the another/next as users perform tasks, views (component)
@@ -937,13 +950,3 @@ export class DepartmentDetailsComponent implements OnInit {
     <figcaption>&nbsp;&nbsp;&nbsp; Image - Output - Optional Route Parameter Show Selected Department highlighted</figcaption>
   </figure>
 </p>
-
-Working with existing/cloned/copied Angular App
----------------------
-- Clone or Download the project/app from Github or any other sources
-- If using Visual Studio Code / Insiders, open Command panel/terminal from menu: View -> Terminal (shortcut key is `CTRL + BackTick` OR `COMMAND + J`)
-- Go inside the project/app directory, command: `cd _examples-angular6-2-routing OR cd appName`
-- Run command: `npm install` to install project/app dependencies `(node_modules)`
-- To Build and run Angular App, command: `ng serve / npm start` OR `ng serve -o` OR `ng serve --open`
-- To change port from 4200 to other port - type command:  `ng serve --port 5000`
-- To check the application in browser type path/url: `localhost:4200 / 5000`
